@@ -40,7 +40,7 @@ var getGeoLoc = function (event) {
       if (response.ok) {
         //convert response to json
         response.json().then(function (data) {
-          console.log(data);
+          // console.log(data);
 
           //retrieve lon + lat info for zipcode
           var longitude = data.lon;
@@ -62,7 +62,7 @@ var getGeoLoc = function (event) {
 //pass geolocation info into weather api
 var getLocalWeather = function (longitude, latitude) {
   //confirm data passed through
-  console.log("lon:" + longitude, "lat:" + latitude);
+  // console.log("lon:" + longitude, "lat:" + latitude);
 
   var weatherApiUrl =
     "https://api.openweathermap.org/data/2.5/onecall?lat=" +
@@ -76,7 +76,7 @@ var getLocalWeather = function (longitude, latitude) {
       //convert response to json
       response.json().then(function (data) {
         //weather json
-        console.log(data);
+        // console.log(data);
 
         //pass data to setWeatherInfo
         setWeatherInfo(data);
@@ -105,7 +105,7 @@ var breweryQuery = function (longitude, latitude) {
 };
 
 var brewName = function (data) {
-  console.log(data);
+  // console.log(data);
   //loop names
   for (var i = 0; i < 5; i++) {
     var barName = data[i].name;
@@ -144,7 +144,7 @@ var setWeatherInfo = function (data) {
 
   //get current date
   var date = new Date();
-  console.log(date);
+  // console.log(date);
 
   //loop and create 5 day weather forecast
   for (var i = 0; i < 5; i++) {
@@ -185,7 +185,7 @@ var setWeatherInfo = function (data) {
 var assignLocalStorage = function (event) {
   //add search to variable
   var zipcodeHistory = zipSearchText.value;
-  console.log(zipcodeHistory);
+  // console.log(zipcodeHistory);
 
   //reset input text field
   zipSearchText.value = "";
