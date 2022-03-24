@@ -1,5 +1,5 @@
 //search history array
-var searchHistory = [];
+var searchHistory = JSON.parse(localStorage.getItem("zipcode")) || [];
 
 //query selectors
 const burgerIcon = document.querySelector("#menu");
@@ -15,6 +15,7 @@ var searchfieldEl = document.querySelector("#searchField");
 var weatherContainer = document.querySelector("#weather-text");
 var modalSearch = document.querySelector("#search-history");
 var zipHistory = document.querySelector("#lsHistory");
+var CityNameEl = document.querySelector("#cityName");
 
 //get geolocation with zipcode
 var getGeoLoc = function (event) {
@@ -26,7 +27,7 @@ var getGeoLoc = function (event) {
   brewCardContEl.textContent = "";
 
   var zipCode = zipSearchText.value;
-  console.log(zipCode);
+  // console.log(zipCode);
 
   //api url (geolocation)
   var geoApiUrl =
@@ -40,7 +41,7 @@ var getGeoLoc = function (event) {
       if (response.ok) {
         //convert response to json
         response.json().then(function (data) {
-          // console.log(data);
+          console.log(data);
 
           //retrieve lon + lat info for zipcode
           var longitude = data.lon;
@@ -76,7 +77,10 @@ var getLocalWeather = function (longitude, latitude) {
       //convert response to json
       response.json().then(function (data) {
         //weather json
-        // console.log(data);
+        console.log(data);
+        console.log(data.alerts[0].sender_name);
+        $(".cityName").html(""),
+          $(".cityName").append(data.alerts[0].sender_name);
 
         //pass data to setWeatherInfo
         setWeatherInfo(data);
@@ -110,7 +114,7 @@ var brewName = function (data) {
   for (var i = 0; i < 5; i++) {
     var barName = data[i].name;
     var brewAddy = data[i].street;
-    console.log(barName);
+    // console.log(barName);
 
     //create element to hold bar name
     var brewCard = document.createElement("div");
@@ -140,7 +144,7 @@ var brewName = function (data) {
 //print weather information ~ pass JSON from weather fetch.
 var setWeatherInfo = function (data) {
   //check data
-  console.log(data);
+  // console.log(data);
 
   //get current date
   var date = new Date();
@@ -225,6 +229,14 @@ searchButton.addEventListener("click", getGeoLoc);
 
 //takes zipcode and adds it to localStorage
 searchButton.addEventListener("click", assignLocalStorage);
+
+//on click will clear localStorage
+$(".clr-history").click(function () {
+  searchHistory = [];
+  localStorage.setItem("zipcode", JSON.stringify(searchHistory));
+  location.reload();
+  // console.log(searchHistory);
+});
 
 burgerIcon.addEventListener("click", () => {
   navbarMenu.classList.toggle("is-active");
